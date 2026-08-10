@@ -1,14 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html>
+  <head>
+    <title>Ball Speed Increase</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury PWA Ball Game</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <canvas id="game-canvas" width="640" height="480"></canvas>
-    <script src="script.js"></script>
-</body>
+    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" href="icon.png">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+      }
+      #ball {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #007bff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ball"></div>
+    <script>
+      let ball = document.getElementById('ball');
+      let speed = 2;
+      let x = 0;
+      let y = 0;
+      let dx = speed;
+      let dy = speed;
+      let intervalId;
+      
+      function increaseSpeed() {
+        speed *= 1.2; // increase speed by 20%
+        dx = speed;
+        dy = speed;
+      }
+      
+      function moveBall() {
+        x += dx;
+        y += dy;
+        
+        if (x + 50 > window.innerWidth || x < 0) {
+          dx = -dx;
+        }
+        if (y + 50 > window.innerHeight || y < 0) {
+          dy = -dy;
+        }
+        
+        ball.style.top = `${y}px`;
+        ball.style.left = `${x}px`;
+      }
+      
+      increaseSpeed();
+      intervalId = setInterval(moveBall, 16); // 16ms = 60fps
+    </script>
+    <script src="sw.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('Service worker registered:', registration);
+          })
+          .catch(error => {
+            console.error('Service worker registration failed:', error);
+          });
+      }
+    </script>
+  </body>
 </html>
