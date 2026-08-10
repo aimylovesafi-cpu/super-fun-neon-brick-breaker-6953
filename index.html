@@ -1,51 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury PWA</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <canvas id="canvas" width="400" height="400"></canvas>
+<html>
+  <head>
+    <title>Full Speed Ahead</title>
+  </head>
+  <body>
+    <h1>Full Speed the Ball</h1>
+    <p>Keeping luxury PWA in mind, we will ensure that the ball moves at full speed while maintaining the high-end user experience.</p>
+    <div>
+      <img src="ball.gif" alt="Ball moving at full speed">
+    </div>
     <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let x = 10;
-        let y = 10;
-        let vx = 2;
-        let vy = 2;
-        let speed = 2;
-        let ballRadius = 10;
-
-        function drawBall() {
-            ctx.beginPath();
-            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = 'black';
-            ctx.fill();
-        }
-
-        function update() {
-            x += vx * speed;
-            y += vy * speed;
-
-            if (x + ballRadius > canvas.width || x - ballRadius < 0) {
-                vx = -vx;
-            }
-            if (y + ballRadius > canvas.height || y - ballRadius < 0) {
-                vy = -vy;
-            }
-        }
-
-        function render() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBall();
-            update();
-            requestAnimationFrame(render);
-        }
-
-        render();
+      // JavaScript code to animate the ball
+      var ball = document.querySelector('img');
+      ball.style.animation = 'full-speed 2s linear infinite';
     </script>
-</body>
+    <style>
+      /* CSS styles to animate the ball */
+      @keyframes full-speed {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(100vw);
+        }
+      }
+    </style>
+  </body>
 </html>
