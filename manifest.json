@@ -1,0 +1,16 @@
+{
+  "name": "Super Fun Neon Brick Breaker",
+  "short_name": "Super Fun Ne",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#050507",
+  "theme_color": "#00F5FF",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
