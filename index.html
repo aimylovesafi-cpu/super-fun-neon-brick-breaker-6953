@@ -1,73 +1,51 @@
-<html>
-  <head>
-    <title>Ball Speed Increase</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury PWA</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="icon" href="icon.png">
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-      }
-      #ball {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: #007bff;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-    </style>
-  </head>
-  <body>
-    <div id="ball"></div>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
     <script>
-      let ball = document.getElementById('ball');
-      let speed = 2;
-      let x = 0;
-      let y = 0;
-      let dx = speed;
-      let dy = speed;
-      let intervalId;
-      
-      function increaseSpeed() {
-        speed *= 1.2; // increase speed by 20%
-        dx = speed;
-        dy = speed;
-      }
-      
-      function moveBall() {
-        x += dx;
-        y += dy;
-        
-        if (x + 50 > window.innerWidth || x < 0) {
-          dx = -dx;
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let x = 10;
+        let y = 10;
+        let vx = 2;
+        let vy = 2;
+        let speed = 2;
+        let ballRadius = 10;
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = 'black';
+            ctx.fill();
         }
-        if (y + 50 > window.innerHeight || y < 0) {
-          dy = -dy;
+
+        function update() {
+            x += vx * speed;
+            y += vy * speed;
+
+            if (x + ballRadius > canvas.width || x - ballRadius < 0) {
+                vx = -vx;
+            }
+            if (y + ballRadius > canvas.height || y - ballRadius < 0) {
+                vy = -vy;
+            }
         }
-        
-        ball.style.top = `${y}px`;
-        ball.style.left = `${x}px`;
-      }
-      
-      increaseSpeed();
-      intervalId = setInterval(moveBall, 16); // 16ms = 60fps
+
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+            update();
+            requestAnimationFrame(render);
+        }
+
+        render();
     </script>
-    <script src="sw.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-          .then(registration => {
-            console.log('Service worker registered:', registration);
-          })
-          .catch(error => {
-            console.error('Service worker registration failed:', error);
-          });
-      }
-    </script>
-  </body>
+</body>
 </html>
